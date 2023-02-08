@@ -1,0 +1,13 @@
+<div>
+    <h1>{{h1}}</h1>
+</div>
+<div>
+    <h2>Usuario:{{username}}</h2>
+     {{#each cart}}
+    <div>
+       <span>Producto:{{this.title}}</span>
+       <span>Precio:${{this.price}}</span>
+    </div>
+    {{/each}}
+</div>
+
