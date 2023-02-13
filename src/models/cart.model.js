@@ -10,12 +10,13 @@ const cartSchema = new mongoose.Schema({
         required:true
     
     },
-    productos: {
-        type: [{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:productCollection
-        }],
-        default:[]
+    productos:{
+      type:[{
+        quantity:{type:Number},
+        type:mongoose.Schema.Types.ObjectId,
+        ref:productCollection
+      }]
+
     }
 })
 
@@ -27,3 +28,5 @@ cartSchema.pre('findOne',function(next){
 const cartModel = mongoose.model(collection,cartSchema);
 
 module.exports = {cartModel};
+
+

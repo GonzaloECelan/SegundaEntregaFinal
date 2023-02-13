@@ -8,6 +8,7 @@ const routerProduct = require('./routes/product.routes');
 const routerCart = require('./routes/cart.routes');
 
 
+
 const app = express();
 
 // middlewares
@@ -20,7 +21,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const server = app.listen(PORT, ()=>{
     console.log('Conexion exitosa al puerto 8080')
@@ -28,3 +29,5 @@ const server = app.listen(PORT, ()=>{
 
 app.use('/api/product',routerProduct);
 app.use('/api/carts',routerCart);
+
+

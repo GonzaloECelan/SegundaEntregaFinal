@@ -5,25 +5,28 @@ const {productModel} = require('../models/product.model');
 
 const router = Router();
 
+
+
 router.get('/home', async(req,res)=>{
     const limit = req.query.limit;
-
+    
     
     try {
         if(!limit){
+            
             const response = await productModel.find().lean().sort({price:1}).limit(10);
             const data = {
                 title: "Productos",
                 product:response
             }
-            res.render('product',data);
+            res.render('productos',data);
         }else{
             const response = await productModel.find().lean().limit(parseFloat(limit));
             const data = {
                 title: "Productos",
                 product:response
             }
-            res.render('product',data);
+            res.render('productos',data);
         }
  
         // res.status(200).send({result:'success', products: response})
