@@ -10,18 +10,22 @@ const cartSchema = new mongoose.Schema({
         required:true
     
     },
-    productos:{
+    carrito:{
       type:[{
-        quantity:{type:Number},
+        producto:{
         type:mongoose.Schema.Types.ObjectId,
         ref:productCollection
-      }]
+        },
+        cantidad:{type:Number}
+        
+      }],
+      default:[]
 
     }
 })
 
 cartSchema.pre('findOne',function(next){
-    this.populate('productos')
+    this.populate('carrito.producto')
     next()
 })
 

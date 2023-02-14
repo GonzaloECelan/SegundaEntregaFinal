@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const {Router} = require('express');
 
+
 const {productModel} = require('../models/product.model');
+const dom = require('../public/js/dom');
 
 const router = Router();
 
@@ -33,6 +35,28 @@ router.get('/home', async(req,res)=>{
 
     } catch (error) {
         console.log(error)
+    }
+})
+
+router.get('/paginate', async(req,res)=>{
+    try {
+    const response = await productModel.paginate({category:'Electrónica'},{limit:10, page: 1})
+    res.send({
+        status:"succes",
+        payload: response.docs,
+        totalPages: response.totalPages,
+        prevPage: response.prevPage,
+        nextPage: response.nextPage,
+        page: response.page,
+        hasPrevPage: response.hasPrevPage,
+        hasNextPage: response.hasNextPage
+
+
+    })
+    console.log(response.docs)
+
+    } catch (error) {
+    console.log(error)
     }
 })
 

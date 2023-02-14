@@ -32,11 +32,12 @@ router.post('/add', async (req,res)=>{
 
  
 
-    const {cartId,productId} = req.body;
+    const {cartId,productId,quantity} = req.body;
     try {
-        const response = await cartModel.findOneAndUpdate({_id:cartId},
-        {$push:{productos:productId}})
-        res.status(200).send({result:'success', addProduct: response})
+        // const cart = await cartModel.findOne({_id:cartId}).lean();
+        
+        const response = await cartModel.findOneAndUpdate({_id:cartId},{$push:{carrito:{producto:productId,cantidad:quantity}}})
+        res.status(200).send({result:'success', addProduct: response});   
        
         
     } catch (error) {
@@ -49,12 +50,12 @@ router.post('/add', async (req,res)=>{
 router.get('/populate/:cid', async(req,res)=>{
     const cartId = req.params.cid;
     try {
-        const response = await cartModel.findOne({_id:cartId}).lean();
+        const cart = await cartModel.findOne({_id:cartId}).lean();
+
         const data = {
             h1:'Mi carrito',
-            username: response.username,
-            cart: response.productos,
-            cantidad:0
+            username: cart.username,
+          
         }
         res.render('carrito',data)
     
@@ -83,14 +84,11 @@ router.delete('/:cid/product/:pid', async(req,res)=>{
     const productId = req.params.pid;
     try {
         const cart = await cartModel.findOne({_id:cartId})
-        const findIndex = cart.productos.findIndex((element)=>element._id == productId);
-        cart.productos.splice(findIndex,1)
+        const findIndex = cart.carrito.findIndex((element)=>element.producto._id == productId);
+        cart.carrito.splice(findIndex,1)
         const response = await cartModel.findOneAndUpdate({_id:cartId},cart);
         
-
-    
-
-        res.send({response})
+        res.status(200).send({result:'Se elimino producto correctamente'})
 
     } catch (error) {
         console.log(error)
@@ -99,40 +97,19 @@ router.delete('/:cid/product/:pid', async(req,res)=>{
 
 // metodo para eliminar todo los productos del carrito
 
-router.get('/:cid', async(req,res)=>{
+router.delete('/:cid', async(req,res)=>{
     const cartId = req.params.cid;
     try {
         const cart = await cartModel.findOne({_id:cartId});
-        const length = cart.productos.length;
-        const deleteProduct = cart.productos.splice(0,length)
+        const length = cart.carrito.length;
+        const deleteProduct = cart.carrito.splice(0,length)
 
         const response = await cartModel.findOneAndUpdate({_id:cartId},cart);
         
-        res.status(200).send({result:'succes', message:'Su carrito fue vaciado correctamente'})
+        res.status(200).send({status:'succes', result:'Su carrito fue vaciado correctamente'})
 
     } catch (error) {
         console.log()
-    }
-})
-
-// metodo para actualizar cantidad de productos
-
-router.get('/:cid/products/:pid',async(req,res)=>{
-    const cartId = req.params.cid;
-    const productId = req.params.pid;
-    const {cantidad} = req.body;
-    try {
-        const cart = await cartModel.findOne({_id:cartId});
-        const findProduct = cart.productos.find(elemet => elemet._id == productId );
-        if(findProduct == productId){
-        
-            const cantidad = findProduct.quantity
-        }
-        console.log(findProduct)
-
-
-    } catch (error) {
-        console.log(error)
     }
 })
 
