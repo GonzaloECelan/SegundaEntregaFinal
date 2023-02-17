@@ -28,16 +28,30 @@ router.post('/', async(req,res)=>{
 
 // metodo para agregar productos al carrito
 
-router.post('/add', async (req,res)=>{
+router.get('/add', async (req,res)=>{
 
  
 
     const {cartId,productId,quantity} = req.body;
     try {
-        // const cart = await cartModel.findOne({_id:cartId}).lean();
-        
+        const cart = await cartModel.findOne({_id:cartId}).lean();
+        const findProduct = await cart.carrito.find(e=> e.producto._id == productId);
+      if(findProduct){
+        const findIndex = cart.carrito.findIndex((element)=>element.producto._id == productId);
+        const update = {
+            producto:productId,
+            cantidad:quantity
+        }
+        cart.carrito.splice(findIndex,1,update)
+        const response = await cartModel.findOneAndUpdate({_id:cartId},cart)
+        res.status(200).send({result:'success', upDateProduct: response});
+      }else{
         const response = await cartModel.findOneAndUpdate({_id:cartId},{$push:{carrito:{producto:productId,cantidad:quantity}}})
         res.status(200).send({result:'success', addProduct: response});   
+
+      }
+
+
        
         
     } catch (error) {
@@ -51,13 +65,17 @@ router.get('/populate/:cid', async(req,res)=>{
     const cartId = req.params.cid;
     try {
         const cart = await cartModel.findOne({_id:cartId}).lean();
+        const user = cart.username;
 
         const data = {
             h1:'Mi carrito',
             username: cart.username,
+            carrito: cart.carrito
           
         }
-        res.render('carrito',data)
+        console.log(cart)
+        res.render('carrito',data).send({user})
+       
     
     } catch (error) {
         console.log(error)

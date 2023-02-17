@@ -6,7 +6,7 @@ const handlebars = require('express-handlebars');
 const conexionMD = require('./config/db.config');
 const routerProduct = require('./routes/product.routes');
 const routerCart = require('./routes/cart.routes');
-
+const {button} = require('./dom');
 
 
 const app = express();
@@ -18,6 +18,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
 
 
 

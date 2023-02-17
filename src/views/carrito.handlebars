@@ -3,11 +3,11 @@
 </div>
 <div>
     <h2>Usuario:{{username}}</h2>
-     {{#each cart}}
-    <div>
-       <span>Producto:{{this.title}}</span>
-       <span>Precio:${{this.price}}</span>
-       <span>Cantidad:{{Cantidad}}</span>
+     {{#each carrito}}
+    <div >
+       <span>Producto:{{this.producto.title}}</span>
+       <span>Precio:${{this.producto.price}}</span>
+       <span>Cantidad:{{this.cantidad}}</span>
     </div>
     {{/each}}
 </div>

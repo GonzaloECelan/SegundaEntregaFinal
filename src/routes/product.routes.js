@@ -3,7 +3,6 @@ const {Router} = require('express');
 
 
 const {productModel} = require('../models/product.model');
-const dom = require('../public/js/dom');
 
 const router = Router();
 
