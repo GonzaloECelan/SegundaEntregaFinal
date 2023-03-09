@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const {Router} = require('express');
+const {auth} = require('../middlewares/auth')
 
 
 const {productModel} = require('../models/product.model');
@@ -8,7 +9,8 @@ const router = Router();
 
 
 
-router.get('/home', async(req,res)=>{
+router.get('/home', auth, async(req,res)=>{
+    
     const limit = req.query.limit;
     
     
