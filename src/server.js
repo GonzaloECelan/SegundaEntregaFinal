@@ -8,10 +8,13 @@ const MongoStore = require('connect-mongo')
 
 
 
+
 const conexionMD = require('./config/db.config');
 const routerProduct = require('./routes/product.routes');
 const routerCart = require('./routes/cart.routes');
 const sessionRout = require('../src/routes/user.session.routes');
+
+const jwtRout = require('../src/routes/jwt.routes')
 
 
 
@@ -20,10 +23,11 @@ const PORT = process.env.PORT || 8080;
 
 
 // middlewares
-app.use(express.static(__dirname + './public'));
+
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
+app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
@@ -46,7 +50,7 @@ app.use(passport.session())
 // rutas
 app.use('/api/product',routerProduct);
 app.use('/api/carts',routerCart);
-app.use('/api/session',sessionRout)
+app.use(sessionRout)
 
 
 

@@ -9,7 +9,9 @@ const router = Router();
 
 
 router.get('/login', async (req,res)=>{
+  
     return res.render('login')
+   
   })
 
 router.get('/register', async (req,res)=>{
@@ -26,7 +28,7 @@ async(req,res)=>{
       };
    req.session.user = sessionUser
 
-    return res.redirect('/api/session/login')
+    return res.redirect('/login')
       
 
     })
@@ -66,6 +68,20 @@ router.get('/logout', async (req,res)=>{
 
 router.get('/current',async(req,res)=>{
 res.send({status:'succces',payload:req.user})
+})
+
+router.get('/github', passport.authenticate('github',{scope:['email']}),async(req,res)=>{
+
+})
+
+router.get('/githubcallback', passport.authenticate('github',{failureRedirect:'/error'}),
+async(req,res ) =>{
+  try {
+    req.session.user = req.user
+    return res.redirect('/api/product/home')
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 

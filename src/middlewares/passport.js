@@ -2,9 +2,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const {userModel} = require('../models/user.model');
 const {hashPassword, validPassword} = require('../utils/hash');
-// const {cookieExtractor} = require('../utils/utils')
-// const {SECRET_KEY} = require('../constants/constants')
-// const jwtPassport = require('passport-jwt');
+
+const GitHubStrategy = require('passport-github2').Strategy;
 
 
 passport.use('register', new LocalStrategy({passReqToCallback:true, usernameField:'email'},
@@ -56,29 +55,39 @@ async(username,password,done)=>{
 
 }))
 
-// const JwtStrategy = jwtPassport.Strategy;
-// const ExtractJwt = jwtPassport.ExtractJwt;
 
 
-// passport.use(new JwtStrategy(
-//     {
-//       jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-//       secretOrKey: SECRET_KEY,
-//     },
-//     async (jwt_payload, done) => {
-//       try {
-//         // const user = await userModel.findOne({ email: jwt_payload.email});
-//         // if (!user) {
-//         //   return done(null, false, { messsages: 'User not found'});
-//         // }
-//         return done(null, jwt_payload);
-//       }
-//       catch(error) {
-//         return done(error);
-//       }
-//     }
-//   ));
-  
+
+
+
+passport.use('github', new GitHubStrategy({
+    clientID:'Iv1.6a45f8ee5ecf3610',
+    clientSecret:'19dbaeaf13d0e2ea9b0a2703ae8ef819c7d5370f',
+    callbackURL:'http://localhost8080/api/session/githubcallback'
+},async(accesToken,refreshToken,profile,done)=>{
+    try {
+        console.log(profile)
+        const user = await userModel.findOne({email:profile._json.email})
+        if(!user){
+            const newUser = {
+                first_name: profile._json.name,
+                last_name: "",
+                age:18,
+                email: profile._json.email,
+                password: "",
+        
+            }
+
+        const response = await userModel.create(newUser)
+           return  done(null,newUser)
+        }else{
+            return done(null,user)
+        }
+        
+    } catch (error) {
+        done(error)
+    }
+}))
 
 
 passport.serializeUser((user,done)=>{
