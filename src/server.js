@@ -31,17 +31,17 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
-app.use(session({
-    resave:false,
-    saveUninitialized:false,
-    secret:'secret-51',
-    store: MongoStore.create({
-        ttl:1000,
-        mongoUrl: 'mongodb+srv://gonzalo:coder@ecommerce.exk6w0e.mongodb.net/ecommerce?retryWrites=true&w=majority'
-    })
-}))
+// app.use(session({
+//     resave:false,
+//     saveUninitialized:false,
+//     secret:'secret-51',
+//     store: MongoStore.create({
+//         ttl:1000,
+//         mongoUrl: 'mongodb+srv://gonzalo:coder@ecommerce.exk6w0e.mongodb.net/ecommerce?retryWrites=true&w=majority'
+//     })
+// }))
 app.use(passport.initialize());
-app.use(passport.session())
+// app.use(passport.session())
 
 
 
@@ -50,7 +50,7 @@ app.use(passport.session())
 // rutas
 app.use('/api/product',routerProduct);
 app.use('/api/carts',routerCart);
-app.use(sessionRout)
+app.use(jwtRout)
 
 
 

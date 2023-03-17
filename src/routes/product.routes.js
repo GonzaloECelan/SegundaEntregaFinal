@@ -9,7 +9,7 @@ const router = Router();
 
 
 
-router.get('/home', auth, async(req,res)=>{
+router.get('/home', async(req,res)=>{
     
     const limit = req.query.limit;
     

@@ -27,7 +27,7 @@ const authToken = (req,res,next) =>{
 const cookieExtractor = (req) => {
     let token = null;
     if (req && req.cookies) {
-      token = req.cookies['demopb22'];
+      token = req.cookies['userData'];
     }
     return token;
   };
