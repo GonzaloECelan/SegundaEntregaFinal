@@ -13,8 +13,10 @@ const conexionMD = require('./config/db.config');
 const routerProduct = require('./routes/product.routes');
 const routerCart = require('./routes/cart.routes');
 const sessionRout = require('../src/routes/user.session.routes');
+const config = require('./config/env.config');
 
-const jwtRout = require('../src/routes/jwt.routes')
+// const jwtRout = require('../src/routes/jwt.routes')
+
 
 
 
@@ -48,9 +50,9 @@ app.use(passport.initialize());
 
 
 // rutas
-app.use('/api/product',routerProduct);
-app.use('/api/carts',routerCart);
-app.use(jwtRout)
+// app.use('/api/product',routerProduct);
+// // app.use('/api/carts',routerCart);
+// // app.use(jwtRout)
 
 
 

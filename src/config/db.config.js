@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const config = require('../config/env.config')
 
-const url = 'mongodb+srv://gonzalo:coder@ecommerce.exk6w0e.mongodb.net/ecommerce?retryWrites=true&w=majority';
+const url = process.env.MONGO_URI;
 
 
 mongoose.set('strictQuery', false);

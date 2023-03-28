@@ -1,3 +1,7 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+
+
 body{
     background: #283048;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
@@ -193,3 +197,40 @@ margin-bottom: 20px;
     box-shadow: 1px 1px 10px 5px rgba(255, 255, 255, 0.316);
     transition: all 0.5s;
 }
+
+.facebook{
+display: flex;
+    width: 50px;
+    height: 55px;
+    background-color: #4267B2;
+    box-shadow: 1px 5px 50px 10px rgba(255, 255, 255, 0.253);
+
+}
+
+/* .facebook::hover a{
+    width: 300px;
+    transition: all 0.5s;
+    display: block;
+} */
+
+.facebook a{
+    color:white;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 17px;
+    margin-left: 45px;
+    margin-top: 15px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    overflow: hidden;
+    display: none;
+   
+
+}
+
+.facebook i{
+    color:white;
+    margin-top: 45px;
+    font-size: 30px;
+   margin-left: 10px;
+}
+

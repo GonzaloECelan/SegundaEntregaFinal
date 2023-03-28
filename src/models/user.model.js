@@ -6,10 +6,11 @@ const userCollection = 'users';
 const userSchema = new mongoose.Schema({
     first_name:{type:String},
     last_name:{type:String},
-    email:{type:String, required:true, unique:true},
+    email:{type:String, unique:true},
     age:{type:Number},
-    password:{type:String, required:true},
-    rol:{type:String, default:'user'}
+    password:{type:String},
+    rol:{type:String, default:'user'},
+    provider:{type:String}
 })
 
 

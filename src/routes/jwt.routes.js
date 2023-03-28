@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const passport = require('../middlewares/jtw.passport');
-const {generateToken} = require('../utils/utils');
+const {generateToken,authToken} = require('../utils/utils');
 const {authorization} = require('../middlewares/authorization')
 const {passportCustom} = require('../middlewares/passport.custum');
 const {hashPassword, validPassword} = require('../utils/hash')
@@ -36,9 +36,14 @@ router.post('/register', async(req,res)=>{
         last_name,
         age,
         email,
+        provider: null,
         password:hashPassword(password)
       }
-      const reponse = await userModel.create(newUser)
+      const response = await userModel.create(newUser)
+      const token = generateToken({firts_name});
+      res.cookie('User',token,{
+        maxAge:60*60
+      })
   
       return res.redirect('/login');
      
@@ -55,10 +60,11 @@ router.post('/login', async (req, res) => {
     try {
       const user = await userModel.findOne({email:email});
       if (email === user.email && validPassword(user,password)) {
-        const access_token = generateToken({email, role:'user'});
-        res.cookie('userData', access_token, {
+        const access_token = generateToken({email,password, role:'user'});
+        res.cookie('userLogin', access_token, {
           maxAge: 60*60*1000,
-          httpOnly: true,
+          httpOnly:true,
+         
       
         });
         return res.send({status:'succes', message:'ingreso correctamente'});
@@ -70,8 +76,7 @@ router.post('/login', async (req, res) => {
     }
   });
 
-router.get('/current', passportCustom('jwt') 
-,authorization('user'), async(req,res)=>{
+router.get('/current',authToken , async(req,res)=>{
     res.send({payload: req.user})
 })
 
